@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Identify</title>
+</head>
+<body>
+  <h1>Bitespeed Identify Tester</h1>
+  <form id="identifyForm">
+    <label>Email: <input type="email" id="email" name="email"></label><br>
+    <label>Phone Number: <input type="text" id="phone" name="phoneNumber"></label><br>
+    <button type="submit">Send</button>
+  </form>
+
+  <h2>Response:</h2>
+  <pre id="responseBox"></pre>
+
+  <script>
+    document.getElementById('identifyForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const phoneNumber = document.getElementById('phone').value;
+
+      const payload = {};
+      if (email) payload.email = email;
+      if (phoneNumber) payload.phoneNumber = phoneNumber;
+
+      const responseBox = document.getElementById('responseBox');
+
+      try {
+        const res = await fetch('/identify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        responseBox.textContent = JSON.stringify(data, null, 2);
+        console.log('Request:', payload);
+        console.log('Response:', data);
+      } catch (error) {
+        responseBox.textContent = 'Error: ' + error.message;
+      }
+    });
+  </script>
+</body>
+</html>
