@@ -41,6 +41,28 @@ app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+app.get('/identify', (req, res) => {
+  res.send(`
+    <h2>Welcome to the Identify Endpoint</h2>
+    <p>This endpoint expects a <strong>POST</strong> request with the following JSON format:</p>
+    <pre>
+{
+  "email": "user@example.com",
+  "phoneNumber": "9876543210"
+}
+    </pre>
+    <p>Use a tool like <a href="https://www.postman.com/" target="_blank">Postman</a> or <code>curl</code> to send a POST request.</p>
+    <p>Example <code>curl</code> command:</p>
+    <pre>
+curl -X POST https://bitespeed-identity-mtm7.onrender.com/identify \\
+  -H "Content-Type: application/json" \\
+  -d '{"email": "user@example.com", "phoneNumber": "9876543210"}'
+    </pre>
+    <p> To test this tool without going to terminal or Postman, go to<a href="https://bitespeed-identity-mtm7.onrender.com/test-identify" target="_blank">Test</a> or use the link : https://bitespeed-identity-mtm7.onrender.com/test-identify ,\n
+        it does the same job as /identify but it gives tester a premade frontend,\n
+        To check the Health of endpoint go to  https://bitespeed-identity-mtm7.onrender.com/health. </p>
+  `);
+});
 
 app.post('/identify', async (req: Request, res: Response): Promise<void> => {
   try {
